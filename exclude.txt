@@ -1,0 +1,6 @@
+*.git
+*._
+*.DS_Store
+*.AppleDouble
+*.gitignore
+

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+#
+#
+# LBACKUP INSTALLER - Post Install Script
+# (C)2009 Lucid Information Systems, All Rights Reserved
+# http://www.lucidsystems.org
+# Authors : Henri Shustak
+# Licensed under the GNU GPL
+#
+# Version 1.1
+#
+
+
+######################################################################
+#   This script will remove key components of the any old versions   #
+######################################################################
+
+
+################### Install Configuration #################
+
+# Name and Version
+install_name="lbackup"
+install_version="1001"
+
+# Source Variables
+install_dir_source="/usr/local/libexec/"
+
+# Example and LBackup Directory Details
+lbackup_configuration_directory_old="/lbackup"
+lbackup_configuration_directory="/etc/lbackup"
+lbackup_example_configuration_name="example_backup_config"
+
+################### Internal Variables #################
+
+full_install_dir_source=${install_dir_source}${install_name}${install_version}
+
+lbackup_example_configuration_path="${lbackup_configuration_directory}/${lbackup_example_configuration_name}"
+lbackup_example_configuration_path_old="${lbackup_configuration_directory_old}/${lbackup_example_configuration_name}"
+
+################### Previous Version Check #################
+
+# Remove old version of LBackup
+
+# Remove Previous Version (LBackup Backup Directory)
+if [ -d "${full_install_dir_source}" ] ; then
+    rm -Rf "${full_install_dir_source}"
+fi
+
+# Remove Previous Version (LBackup Example Configuration Directory)
+if [ -d "${lbackup_example_configuration_path}" ] ; then
+    rm -Rf "${lbackup_example_configuration_path}"
+fi
+
+# Remove Previous Version - Old location (LBackup Example Configuration Directory)
+if [ -d "${lbackup_example_configuration_path_old}" ] ; then
+    rm -Rf "${lbackup_example_configuration_path_old}"
+fi
+
+
+##### Deal with the "lbackup" Directory In Older Versions #####
+
+if [ -d /lbackup ] ; then
+    if ! [ -d /etc/lbackup ] ; then 
+        mv /lbackup /etc/lbackup
+    fi
+fi
+
+##### Remove any old symbolic links prior to installation #####
+if [ -L /lbackup ] ; then
+	rm /lbackup
+fi
+
+################ Exit ##############
+
+
+exit 0
+
+

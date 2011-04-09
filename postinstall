@@ -1,0 +1,123 @@
+#!/bin/bash
+
+#
+#
+# LBACKUP INSTALLER - Post Install Script
+# (C)2006 Lucid Information Systems, All Rights Reserved
+# Authors : Henri Shustak, Sam Wiliams
+# Licenced under the GNU GPL
+#
+# Version 1.2
+#
+
+
+#######################
+#   Install LBACKUP   #
+#######################
+
+
+################### Install Configuration #################
+
+# Name and Version
+install_name="lbackup"
+install_version="1001"
+
+# Source Variables
+install_dir_source="/usr/local/libexec/"
+backup_component_name_source="backup_script.bash"
+email_component_name_source="maillog_script.bash"
+change_directory_component_name_source="interfaces/lbackup_change_directory.bash"
+
+# Destination Variables
+bin_exec_dest="/usr/local/sbin/"
+backup_component_name_dest="lbackup"
+email_component_name_dest="lmail"
+change_directory_component_name_dest="lcd"
+
+
+
+# Version Links
+compatibility_version_link_name="lbackup1"
+current_version_link_name="lbackup"
+
+################### Internal Variables #################
+
+full_install_dir_source=${install_dir_source}${install_name}${install_version}/
+
+full_backup_component_name_dest="${bin_exec_dest}${backup_component_name_dest}"
+full_email_component_name_dest="${bin_exec_dest}${email_component_name_dest}"
+full_change_directory_component_link_dest="${bin_exec_dest}${change_directory_component_name_dest}"
+
+full_compatibility_version_link_name="${install_dir_source}${compatibility_version_link_name}"
+full_current_version_link_name="${install_dir_source}${current_version_link_name}"
+
+backup_component_link_source="${full_current_version_link_name}/${backup_component_name_source}"
+email_component_link_source="${full_current_version_link_name}/${email_component_name_source}"
+change_directory_component_link_source="${full_current_version_link_name}/${change_directory_component_name_source}"
+
+
+################### Previous Version Check #################
+
+# Remove Outdated Links
+
+# Remove Previous Version (Backup Component)
+if [ -h "${full_backup_component_name_dest}" ] ; then
+    rm -f "${full_backup_component_name_dest}"
+fi
+
+
+# Remove Previous Version (Email Component)
+if [ -h "${full_email_component_name_dest}" ] ; then
+    rm -f "${full_email_component_name_dest}"
+fi
+
+# Remove Compatibility Version Link
+if [ -h "${full_compatibility_version_link_name}" ] ; then
+    rm -f "${full_compatibility_version_link_name}"
+fi
+
+# Remove Current Version Link
+if [ -h ${full_current_version_link_name} ] ; then
+    rm -f "${full_current_version_link_name}"
+fi
+
+################ Create Current Version Links ##############
+
+
+# Install Compatibility Version Link
+ln -s "${full_install_dir_source}" "${full_compatibility_version_link_name}"
+
+# Install Current Version Link
+ln -s "${full_compatibility_version_link_name}" "${full_current_version_link_name}"
+
+################## Create Executable Links ################
+
+# Confirm Executable Destination Folder Exists
+if ! [ -d "${bin_exec_dest}" ] ; then
+    mkdir -p "${bin_exec_dest}"
+    chown root:wheel "${bin_exec_dest}"
+    chmod 755 "${bin_exec_dest}"
+fi
+
+# Install Backup Component (Executable)
+ln -s "${backup_component_link_source}" "${full_backup_component_name_dest}"
+
+# Install Email Component (Executable)
+ln -s "${email_component_link_source}" "${full_email_component_name_dest}"
+
+# Install Change Directory Component (Executable)
+ln -s "${change_directory_component_link_source}" "${full_change_directory_component_link_dest}"
+
+
+##### Create the (Example) Settings Sybolic Link (Root Directory) #####
+if ! [ -d /lbackup ] ; then
+    if [ -d /etc/lbackup ] ; then
+        ln -s /etc/lbackup /lbackup
+    fi
+fi
+
+
+################ Exit ##############
+
+
+exit 0

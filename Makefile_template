@@ -1,0 +1,64 @@
+include /usr/local/share/luggage/luggage.make
+
+STAMP:=`date +%Y%m%d`
+YY:=`date +%Y`
+MM:=`date +%m`
+DD:=`date +%d`
+BUILD_DATE=`date -u "+%Y-%m-%dT%H:%M:%SZ"`
+
+PACKAGE_TARGET_OS=10.4
+
+#LBackup package title
+TITLE=LBackup
+REVERSE_DOMAIN=org.lucidsystems
+PACKAGE_ID=${REVERSE_DOMAIN}.lbackup
+IFPkgFlagBackgroundAlignment=bottomleft
+IFPkgFlagBackgroundScaling=tofit
+IFPkgFlagRelocatable=false
+IFPkgFlagRestartAction=None
+IFPkgFlagRootVolumeOnly=true
+IFPkgBuildDate=${BUILD_DATE}
+#IFPkgFlagInstalledSize=102400
+
+# LBackup package version
+PACKAGE_VERSION=XXXXXXXXX
+PACKAGE_NAME=LBackup
+#PACKAGE_MAJOR_VERSION=0
+#PACKAGE_MINOR_VERSION=".9.8r5-alpha-8"
+
+# Paths to various items and tools
+PACKAGEMAKER=/Developer/usr/bin/packagemaker
+TAR=/usr/bin/tar
+CP=/bin/cp
+INSTALL=/usr/bin/install
+DITTO=/usr/bin/ditto
+
+LUGGAGE_TMP=/tmp/the_luggage
+SCRATCH_D=${LUGGAGE_TMP}/${PACKAGE_NAME}
+SCRIPT_D=${SCRATCH_D}/scripts
+RESOURCE_D=resources
+WORK_D=${SCRATCH_D}/root
+PAYLOAD_D=${SCRATCH_D}/payload
+
+PM_RESTART=None
+
+LBACKUP-CORE=lbackup_core
+
+PAYLOAD=\
+		unpack-${LBACKUP-CORE} \
+		pack-lbackup-etc \
+		pack-lbackup-usr \
+		pack-script-postinstall \
+		pack-script-postupgrade \
+		pack-script-preinstall \
+		pack-script-preupgrade
+
+unpack-${LBACKUP-CORE}:
+	@sudo ${TAR} xzf lbackup_core.tar.gz
+
+pack-lbackup-etc:
+	@sudo ${CP} -R ./${LBACKUP-CORE}/etc/ ${WORK_D}/etc/
+
+pack-lbackup-usr:
+	@sudo ${CP} -R ./${LBACKUP-CORE}/usr/ ${WORK_D}/usr/
+
