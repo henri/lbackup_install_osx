@@ -3,4 +3,5 @@
 *.DS_Store
 *.AppleDouble
 *.gitignore
+./lbackup_core/README.md
 
