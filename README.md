@@ -6,6 +6,7 @@ Use this project to build the OS X package installer for LBackup.
 
 In order to build an OS X LBackup Apple install package follow the steps outlined below : 
  
+ - Ensure that you have checked out the version of lbackup core which you wish to build : <http://github.com/henri/lbackup-core>
  - Ensure that you have installed the OS X developer tools : <http://developer.apple.com/technologies/tools/>
  - Ensure that "The Luggage" is installed on your system : <https://github.com/unixorn/luggage>
  - Ensure that the "lbackup-core" and "lbackup_install_osx" share the same parent directory. 
