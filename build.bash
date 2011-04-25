@@ -23,6 +23,15 @@ excludes_file_absolute_path="${script_directory}/${excludes_file_name}"
 output_package_file_name="LBackup.pkg"
 output_lbackup_core_unpack_file_name="lbackup_core"
 
+# check we are running as root
+current_user=`whoami`
+if [ "${current_user}" != "root" ] ; then 
+    echo ""
+    echo "    ERROR! : This build script must be run as root."
+    echo ""
+    exit -1
+fi
+
 # move to directory containing lbackup core source code direcotry
 cd "${script_directory}"
 
