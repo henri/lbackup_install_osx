@@ -2,8 +2,9 @@
 
 LBackup is an open source (GNU GPL) backup system, aimed at systems administrators who demand reliable backups.
 
-Use this project to build the OS X package installer for LBackup or click the link below to download ready to go install package.
+Use this project to build the OS X package installer for LBackup.
 
+To install a ready to install OS X install package use the link below.
 [![download](http://lucidsystems.tk/images/multi/download.png)](http://www.lucid.systems/download/lbackup) [![download](http://lucidsystems.tk/images/multi/apple_package.png)](http://www.lucid.systems/download/lbackup)
 
 In order to build an OS X LBackup Apple install package follow the steps outlined below : 
